@@ -98,7 +98,7 @@ sub expand {
 # We want to allow // m// s/// && || ! !~ != >= > == < <= =~ lt gt le ge ne eq not and or + - % * x .
 #
 my $cmp = new Safe;
-$cmp->permit_only( qw( :base_core :base_mem :base_loop print sprintf prtf padsv padav padhv padany  ) );
+$cmp->permit_only( qw( :base_core :base_mem :base_loop print sprintf prtf padsv padav padhv padany localtime ) );
 
 sub eval {
 	my ($self, $string) = @_;
@@ -404,6 +404,10 @@ Multiple *s can be used.
 =item *
 
 ${DUMP} - Returns all key, value pairs (stripping out snmpTrapCommunity)
+
+=item *
+
+${TIMENOW} - Returns the seconds since the EPOC
 
 =back
 

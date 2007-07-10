@@ -6,6 +6,7 @@ Revision history for Perl extension SNMP::Trapinfo
 	The marker is required because some traps have embedded linefeeds in the value. This module will
 	only read the portion that is on the same line as the key and ignore the rest (unless it
 	happens to look like a valid line).
+	Add access to 'localtime()' function
 
 0.92  2006-12-14
 	Added safe $trap->eval using Safe.pm module (Rob Moss)

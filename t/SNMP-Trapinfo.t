@@ -5,7 +5,7 @@
 
 # change 'tests => 1' to 'tests => last_test_to_print';
 
-use Test::More tests => 93;
+use Test::More tests => 94;
 BEGIN { use_ok('SNMP::Trapinfo') };
 
 #########################
@@ -293,3 +293,4 @@ ok( defined $trap->eval("1+2*3/4-5"), "Basic maths okay");
 ok( defined $trap->eval('"${P1}" =~ /altinity/'), "regexp okay");
 ok( defined $trap->eval("(1 > 73) && (5 < 100) || (6 != 5) and ('here' ne 'there') or ('now' lt 'yesterday')"), "comparison operators okay");
 is( $trap->eval("system('/usr/bin/cat /etc/passwd')"), undef, "system call correctly blocked");
+ok ( defined $trap->eval("localtime()"), "Access to timelocal OK" );
