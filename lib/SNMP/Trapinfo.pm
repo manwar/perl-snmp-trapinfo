@@ -405,10 +405,6 @@ Multiple *s can be used.
 
 ${DUMP} - Returns all key, value pairs (stripping out snmpTrapCommunity)
 
-=item *
-
-${TIMENOW} - Returns the seconds since the EPOC
-
 =back
 
 For the example trap above, if you ran:
