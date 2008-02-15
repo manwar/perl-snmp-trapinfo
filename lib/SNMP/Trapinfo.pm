@@ -6,7 +6,7 @@ use warnings;
 use Carp;
 use Safe;		# Safe module, creates a compartment for eval's and tests for disabled commands
 
-our $VERSION = '1.0';
+our $VERSION = '1.01';
 
 sub AUTOLOAD {
         my $self = shift;
