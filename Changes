@@ -1,5 +1,8 @@
 Revision history for Perl extension SNMP::Trapinfo
 
+1.02  ??
+	Assign copyright to Opsera
+
 1.01  2008-02-15
 	Add access to 'localtime()' function
 
