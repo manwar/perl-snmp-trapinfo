@@ -167,7 +167,7 @@ sub read {
 	chomp($_ = shift @packet);
 	$self->{P}->[1] = $_;
 	# Extra stuff around the IP packet in Net-SNMP 5.2.1
-	s/^.*\[//;
+	s/^.*?\[//;
 	s/\].*$//;
 	$self->hostip($_);
 
