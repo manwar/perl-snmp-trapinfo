@@ -9,4 +9,14 @@ WriteMakefile(
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/SNMP/Trapinfo.pm', # retrieve abstract from module
        AUTHOR         => 'Ton Voon <ton.voon@opsera.com>') : ()),
+    META_MERGE => {
+        'meta-spec' => { version => 2 },
+        resources => {
+            repository => {
+                type => 'git',
+                url  => 'https://github.com/tonvoon/perl-snmp-trapinfo.git',
+                web  => 'https://github.com/tonvoon/perl-snmp-trapinfo',
+            },
+        },
+    },
 );
