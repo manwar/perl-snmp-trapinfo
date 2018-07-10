@@ -248,6 +248,23 @@ cmp_ok( $trap->eval('"${CERENT-454-MIB::cerent454AlarmPortNumber.*.remoteAlarmIn
     is( $trap->last_eval_string, '"(null)" =~ /stuff/', "Expanded correctly");
     is( $trap->expand('${SNMP-COMMUNITY-MIB::snmpTrapCommunity}'), '"*****"', "Password hidden on input");
 
+
+$data = <<EOF;
+localhost
+UDP: [127.0.0.1]:48932->[127.0.0.1]:162
+DISMAN-EXPRESSION-MIB::sysUpTimeInstance 3:23:35:13.48
+SNMPv2-MIB::snmpTrapOID.0 IF-MIB::linkUp
+IBM-6611-APPN-MIB::ibmProd.258.1.1 0
+EOF
+
+$trap = SNMP::Trapinfo->new(\$data, { hide_passwords => 1 } );
+cmp_ok( $trap->eval('${IBM-6611-APPN-MIB::ibmProd.258.1.1} <= 4294967295'),
+	"eq", 1, "Got value of 0");
+$DB::single=1;
+is( $trap->expand('${IBM-6611-APPN-MIB::ibmProd.258.1.1} <= 4294967295'), "help", "Expands correctly");
+
+exit;
+
 # Infinite loop tests
   note "Doing infinite tests";
     is( $trap->eval('"${CERENT-454-MIB::cerent454AlarmPortNumber*}" eq "infinite"'), 0, "No infinite loop! - phew");
