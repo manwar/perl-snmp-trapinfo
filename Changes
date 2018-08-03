@@ -1,5 +1,9 @@
 Revision history for Perl extension SNMP::Trapinfo
 
+1.04 0000-00-00
+    Added 'eval { ... }' to enable some calculations 
+      Example: $result = $cp->expand( 'eval { sprintf("%.2f", ${V6} / ${V9} ) }');
+
 1.03 2014-09-22
     Added option to hide passwords on read of the packet
     Added rv2gv in Safe compartment, which is needed from perl 5.18 onwards

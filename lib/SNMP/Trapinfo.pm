@@ -6,7 +6,7 @@ use warnings;
 use Carp;
 use Safe;		# Safe module, creates a compartment for eval's and tests for disabled commands
 
-our $VERSION = '1.03';
+our $VERSION = '1.04';
 
 sub AUTOLOAD {
         my $self = shift;
@@ -59,6 +59,17 @@ sub _hide_passwords {
     return $string;
 }
 
+# Initialise the Safe compartment once
+# Operators can be listed as follows
+# perl -MOpcode=opdump -e 'opdump'
+#
+# http://search.cpan.org/~nwclark/perl-5.8.8/ext/Opcode/Opcode.pm
+#
+# We want to allow // m// s/// && || ! !~ != >= > == < <= =~ lt gt le ge ne eq not and or + - % * x .
+#
+my $cmp = new Safe;
+$cmp->permit_only( qw( :base_core :base_mem :base_loop print sprintf prtf padsv padav padhv padany localtime rv2gv ) );
+
 sub expand {
 	my $self = shift;
 	my $string = shift;
@@ -90,21 +101,16 @@ sub expand {
 		# though not sure why (see tests for examples)
 		#$string =~ s/\${$key}/$newval/;
 		$string =~ s/\${([\w\-\.\*:]+)}/$newval/;	
+	}
 
+	# eval calculation performed within Safe for security
+	my $eval_re = qr/eval\s*{(.*?)}/;
+	while ( ($key) = ($string =~ /$eval_re/) ) {
+		my $eval_result = $cmp->reval($key) || '';
+		$string  =~ s/$eval_re/$eval_result/;
 	}
 	return $string;
 }
-
-# Initialise the Safe compartment once
-# Operators can be listed as follows
-# perl -MOpcode=opdump -e 'opdump'
-#
-# http://search.cpan.org/~nwclark/perl-5.8.8/ext/Opcode/Opcode.pm
-#
-# We want to allow // m// s/// && || ! !~ != >= > == < <= =~ lt gt le ge ne eq not and or + - % * x .
-#
-my $cmp = new Safe;
-$cmp->permit_only( qw( :base_core :base_mem :base_loop print sprintf prtf padsv padav padhv padany localtime rv2gv ) );
 
 sub eval {
 	my ($self, $string) = @_;

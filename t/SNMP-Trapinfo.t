@@ -5,7 +5,7 @@
 
 # change 'tests => 1' to 'tests => last_test_to_print';
 
-use Test::More tests => 100;
+use Test::More tests => 107;
 BEGIN { use_ok('SNMP::Trapinfo') };
 
 #########################
@@ -332,3 +332,13 @@ like( $@, '/Bad ref/', "Complain if bad parameters for new()");
 
 $trap = SNMP::Trapinfo->new(\$data);
 cmp_ok( $trap->hostip, 'eq', "192.168.10.21", "Host ip correct");
+
+cmp_ok( $trap->expand('eval { ${V5} * ${V5} }'), 'eq', 576, "simple eval expansion working" );
+cmp_ok( $trap->expand('eval { sprintf("%.2f", ${V5} * ${V5} ) }'), 'eq', "576.00", "eval expansion working with sprintf" );
+cmp_ok( $trap->expand('eval{${V5}*${V5}}'), 'eq', 576, "simple eval expansion working (no space)" );
+cmp_ok( $trap->expand('eval{sprintf("%.2f",${V5}*${V5})}'), 'eq', "576.00", "eval expansion working with sprintf (no space)" );
+
+# some invalid calcs
+cmp_ok( $trap->expand('eval{ ${V5} / 0 }'), 'eq', '', "divide by 0" );
+cmp_ok( $trap->expand('eval{ ${V10} * 1 }'), 'eq', '', "no such var" );
+cmp_ok( $trap->expand('eval{ ${V10  }'), 'eq', '', "bad braces" );
