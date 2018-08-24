@@ -334,6 +334,7 @@ $trap = SNMP::Trapinfo->new(\$data);
 cmp_ok( $trap->hostip, 'eq', "192.168.10.21", "Host ip correct");
 
 cmp_ok( $trap->expand('eval { ${V5} * ${V5} }'), 'eq', 576, "simple eval expansion working" );
+cmp_ok( $trap->expand('eval { ${V5} / 24 - 1 }'), 'eq', 0, "check for 0 value" );
 cmp_ok( $trap->expand('eval { sprintf("%.2f", ${V5} * ${V5} ) }'), 'eq', "576.00", "eval expansion working with sprintf" );
 cmp_ok( $trap->expand('eval{${V5}*${V5}}'), 'eq', 576, "simple eval expansion working (no space)" );
 cmp_ok( $trap->expand('eval{sprintf("%.2f",${V5}*${V5})}'), 'eq', "576.00", "eval expansion working with sprintf (no space)" );
