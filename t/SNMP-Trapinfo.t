@@ -249,7 +249,7 @@ cmp_ok( $trap->eval('"${CERENT-454-MIB::cerent454AlarmPortNumber.*.remoteAlarmIn
     is( $trap->expand('${SNMP-COMMUNITY-MIB::snmpTrapCommunity}'), '"*****"', "Password hidden on input");
 
 # Infinite loop tests
-  diag "Doing infinite tests";
+  note "Doing infinite tests";
     is( $trap->eval('"${CERENT-454-MIB::cerent454AlarmPortNumber*}" eq "infinite"'), 0, "No infinite loop! - phew");
     
 
