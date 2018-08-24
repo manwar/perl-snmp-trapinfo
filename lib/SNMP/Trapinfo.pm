@@ -64,7 +64,7 @@ sub expand {
 	my $string = shift;
 	return "" if ! defined $string;
 	my $key;
-	while ( ($key) = ($string =~ /\${([\w\-\.\*:]+)}/) ) {
+	while ( ($key) = ($string =~ /\$\{([\w\-\.\*:]+)}/) ) {
 		my $newval;
 		my ($action, $line) = $key =~ /^([PV])(\d+)?$/;
 		if ($action && $line) {
@@ -89,7 +89,7 @@ sub expand {
 		# Otherwise possible infinite loop
 		# though not sure why (see tests for examples)
 		#$string =~ s/\${$key}/$newval/;
-		$string =~ s/\${([\w\-\.\*:]+)}/$newval/;	
+		$string =~ s/\$\{([\w\-\.\*:]+)\}/$newval/;
 
 	}
 	return $string;
